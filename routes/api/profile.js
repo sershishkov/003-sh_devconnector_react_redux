@@ -28,7 +28,7 @@ router.get(
     const errors = {};
 
     Profile.findOne({ user: req.user.id })
-      .populate('user', ['name', 'avatar'])
+      .populate('user', ['name', 'avatar'])//Показываем поля из связанной таблицы
       .then(profile => {
         if (!profile) {
           errors.noprofile = 'There is no profile for this user';
@@ -140,7 +140,8 @@ router.post(
     if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
     if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
-    Profile.findOne({ user: req.user.id }).then(profile => {
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
       if (profile) {
         // Update
         Profile.findOneAndUpdate(
@@ -159,7 +160,9 @@ router.post(
           }
 
           // Save Profile
-          new Profile(profileFields).save().then(profile => res.json(profile));
+          new Profile(profileFields)
+          .save()
+          .then(profile => res.json(profile));
         });
       }
     });
